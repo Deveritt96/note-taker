@@ -38,4 +38,29 @@ router.post('/notes', (req, res) => {
     });
 });
 
+// code to delete a note from the database
+router.delete('/notes/:id', (req, res) => {
+    fs.readFile(dbFilePath, 'utf8', (err, data) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+        let notes = JSON.parse(data);
+        const noteId = req.params.id;
+        const updatedNotes = notes.filter(note => note.id !== noteId);
+        if (notes.length === updatedNotes.length) {
+            return res.status(404).json({ error: 'Note not found' });
+        }
+        fs.writeFile(dbFilePath, JSON.stringify(updatedNotes), (err) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).json({ error: 'Internal server error' });
+            }
+            res.json({ success: true });
+        });
+    });
+});
+
+
+
 module.exports = router;
