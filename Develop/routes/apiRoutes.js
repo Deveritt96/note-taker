@@ -1,12 +1,12 @@
 const fs = require ('fs');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
-const router = require =('express').Router();
+const router = require('express').Router();
 const dbFilePath = path.join(__dirname, '../db/db.json');
 
 
 // code to get the notes from the database
-router.get('/notes' (req, res) => {
+router.get('/notes', (req, res) => {
     fs.readFile(dbFilePath, 'utf8', (err, data) => {
         if (err) {
             console.log(err);
